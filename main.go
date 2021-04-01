@@ -4,54 +4,53 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-
-	"github.com/qbressler/GoFun/models/usermodel"
 )
 
-type People struct {
-	PersonId  int
-	FirstName string
-	LastName  string
-	Age       int
-	Jobs      []Jobs
+type people struct {
+	personID  int
+	firstName string
+	lastName  string
+	age       int
+	jobs      []jobs
 }
 
-type Jobs struct {
-	Title string
+type jobs struct {
+	title string
 }
 
 func main() {
-	var u usermodel.User = usermodel.CreateUser()
-	fmt.Printf("%v", u)
-	people := []People{
+	//var u usermodel.User = usermodel.CreateUser()
+	//fmt.Printf("%v", u)
+	people := []people{
 		{
-			PersonId:  1,
-			FirstName: "Joe",
-			LastName:  "Doe",
-			Age:       18,
-			Jobs: []Jobs{
+			personID:  1,
+			firstName: "Joe",
+			lastName:  "Doe",
+			age:       18,
+			jobs: []jobs{
 				{
-					Title: "Programmer",
+					title: "Programmer",
 				},
 				{
-					"Sales Clerk",
+					title: "Sales Clerk",
 				},
 			},
 		},
 		{
-			PersonId:  2,
-			FirstName: "Jane",
-			LastName:  "Doe",
-			Age:       19,
+			personID:  2,
+			firstName: "Jane",
+			lastName:  "Doe",
+			age:       19,
 		},
 	}
 	for _, x := range people {
-		fmt.Printf("%d %s\n", x.PersonId, x.FirstName)
+		fmt.Printf("%d %s\n", x.age, x.firstName)
 	}
 
-	peopleJson, err := json.Marshal(people)
+	fmt.Println(people)
+	peopleJSON, err := json.Marshal(people)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%s", peopleJson)
+	fmt.Printf("%s", peopleJSON)
 }
