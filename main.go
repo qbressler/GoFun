@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+
+	"github.com/qbressler/GoFun/models/usermodel"
 )
 
 type People struct {
@@ -19,6 +21,8 @@ type Jobs struct {
 }
 
 func main() {
+	var u usermodel.User = usermodel.CreateUser()
+	fmt.Printf("%v", u)
 	people := []People{
 		{
 			PersonId:  1,
