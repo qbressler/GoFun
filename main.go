@@ -1,56 +1,37 @@
 package main
 
 import (
-	"encoding/json"
+	"database/sql"
 	"fmt"
 	"log"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type people struct {
-	personID  int
-	firstName string
-	lastName  string
-	age       int
-	jobs      []jobs
-}
-
-type jobs struct {
-	title string
+//  Employees this is the employee struct...very simple data
+type Employees struct {
+	id        int
+	firstname string
+	lastname  string
 }
 
 func main() {
-	//var u usermodel.User = usermodel.CreateUser()
-	//fmt.Printf("%v", u)
-	people := []people{
-		{
-			personID:  1,
-			firstName: "Joe",
-			lastName:  "Doe",
-			age:       18,
-			jobs: []jobs{
-				{
-					title: "Programmer",
-				},
-				{
-					title: "Sales Clerk",
-				},
-			},
-		},
-		{
-			personID:  2,
-			firstName: "Jane",
-			lastName:  "Doe",
-			age:       19,
-		},
-	}
-	for _, x := range people {
-		fmt.Printf("%d %s\n", x.age, x.firstName)
+	db, err := sql.Open("mysql", "quintin:******@/corenet")
+	if err != nil {
+		fmt.Printf("%v", err)
 	}
 
-	fmt.Println(people)
-	peopleJSON, err := json.Marshal(people)
+	rows, err := db.Query("select firstname, lastname from Employees")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("%s", peopleJSON)
+
+	employeesSlice := []Employees{}
+	for rows.Next() {
+		e := Employees{}
+		err = rows.Scan(&e.firstname, &e.lastname)
+		employeesSlice = append(employeesSlice, e)
+	}
+
+	fmt.Println(employeesSlice)
 }
